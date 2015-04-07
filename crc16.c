@@ -52,11 +52,11 @@ unsigned int crc_table[256] = {
 
 static int compute(lua_State *L)
 {
-	const char *data;
-	size_t len = 0;
+    const char *data;
+    size_t len = 0;
     unsigned short r, crc = 0;
 
-	data = luaL_checklstring(L, 1, &len);
+    data = luaL_checklstring(L, 1, &len);
 
     for ( ; len > 0; len--)
     {
@@ -67,13 +67,13 @@ static int compute(lua_State *L)
     }
 
     lua_pushinteger(L, crc);
-	return 1;
+        return 1;
 }
 
 static luaL_reg crc16_methods[] =
 {
-	{ "compute", compute },
-	{ NULL, NULL }
+    { "compute", compute },
+    { NULL, NULL }
 };
 
 
@@ -87,7 +87,7 @@ __declspec(dllexport) int luaopen_crc16(lua_State* L)
 int luaopen_crc16(lua_State* L)
 #endif
 {
-	/* this function and luaL_register are removed on Lua 5.2 */
-	luaL_openlib(L, "crc16", crc16_methods, 0);
-	return 1;
+    /* this function and luaL_register are removed on Lua 5.2 */
+    luaL_openlib(L, "crc16", crc16_methods, 0);
+    return 1;
 }
