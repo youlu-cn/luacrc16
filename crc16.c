@@ -12,7 +12,10 @@ extern "C" {
 }
 #endif
 
-
+#if !defined LUA_VERSION_NUM
+/* Lua 5.0 */
+#define luaL_Reg luaL_reg
+#endif
 
 unsigned int crc_table[256] = {
     0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50a5, 0x60c6, 0x70e7,
@@ -70,7 +73,7 @@ static int compute(lua_State *L)
         return 1;
 }
 
-static luaL_reg crc16_methods[] =
+static luaL_Reg crc16_methods[] =
 {
     { "compute", compute },
     { NULL, NULL }
