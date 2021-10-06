@@ -4,6 +4,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
@@ -17,7 +19,7 @@ extern "C" {
 #define luaL_Reg luaL_reg
 #endif
 
-unsigned int crc_table[256] = {
+uint16_t crc_table[256] = {
     0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50a5, 0x60c6, 0x70e7,
     0x8108, 0x9129, 0xa14a, 0xb16b, 0xc18c, 0xd1ad, 0xe1ce, 0xf1ef,
     0x1231, 0x0210, 0x3273, 0x2252, 0x52b5, 0x4294, 0x72f7, 0x62d6,
@@ -55,15 +57,15 @@ unsigned int crc_table[256] = {
 
 static int compute(lua_State *L)
 {
-    const char *data;
+    const uint8_t *data;
     size_t len = 0;
-    unsigned short r, crc = 0;
+    uint16_t r, crc = 0;
 
     data = luaL_checklstring(L, 1, &len);
 
     for ( ; len > 0; len--)
     {
-        r = (unsigned short)(crc >> 8);
+        r = (uint16_t)(crc >> 8);
         crc <<= 8;
         crc ^= crc_table[r ^ *data];
         data ++;
